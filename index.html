@@ -2,33 +2,9 @@
 <html lang="sl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Laura & Hugo – Poroka</title>
+  <title>TEST</title>
 </head>
-<body style="margin:0;">
-
-<script>
-  // preberi token iz URL-ja GitHub strani
-  const params = new URLSearchParams(window.location.search);
-  const token = params.get('token');
-
-  // Apps Script base URL
-  let appUrl = 'https://script.google.com/macros/s/AKfycbw6xr8MzJ5wqweZLefDvO9nd32cI4z1aVzV9er_dz5bcmad8GT8fyzHVMhlg0KE-bDQ/exec';
-
-  // če token obstaja, ga dodaj iframe-u
-  if (token) {
-    appUrl += '?token=' + encodeURIComponent(token);
-  }
-
-  // ustvari iframe
-  const iframe = document.createElement('iframe');
-  iframe.src = appUrl;
-  iframe.style.width = '100%';
-  iframe.style.height = '100vh';
-  iframe.style.border = 'none';
-
-  document.body.appendChild(iframe);
-</script>
-
+<body>
+  <h1>GitHub Pages DELA</h1>
 </body>
 </html>
