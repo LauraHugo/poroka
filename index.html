@@ -4,30 +4,48 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Laura & Hugo – Poroka</title>
+  <style>
+    body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; font-family: sans-serif; }
+    iframe { width: 100%; height: 100vh; border: none; }
+    .fallback { 
+      text-align: center; 
+      padding: 20px; 
+      position: absolute; 
+      bottom: 0; 
+      width: 100%; 
+      background: rgba(255,255,255,0.8); 
+      font-size: 14px;
+    }
+  </style>
 </head>
-<body style="margin:0;">
+<body>
+
+<div id="container"></div>
+
+<div class="fallback">
+  Težave z nalaganjem? <a id="directLink" href="#" target="_blank" style="color: #000; font-weight: bold;">Kliknite tukaj</a>
+</div>
 
 <script>
-  // preberi token iz URL-ja GitHub strani
   const params = new URLSearchParams(window.location.search);
   const token = params.get('token');
-
-  // Apps Script base URL
-  let appUrl = 'https://script.google.com/macros/s/AKfycbw6xr8MzJ5wqweZLefDvO9nd32cI4z1aVzV9er_dz5bcmad8GT8fyzHVMhlg0KE-bDQ/exec';
-
-  // če token obstaja, ga dodaj iframe-u
+  
+  // Base URL corrected
+  const baseUrl = 'https://script.google.com/macros/s/AKfycbw6xr8MzJ5wqweZLefDvO9nd32cI4z1aVzV9er_dz5bcmad8GT8fyzHVMhlg0KE-bDQ/exec';
+  
+  // Build final URL with proper parameter syntax
+  let finalUrl = baseUrl + '?authuser=0';
   if (token) {
-    appUrl += '?token=' + encodeURIComponent(token);
+    finalUrl += '&token=' + encodeURIComponent(token);
   }
 
-  // ustvari iframe
-  const iframe = document.createElement('iframe');
-  iframe.src = appUrl;
-  iframe.style.width = '100%';
-  iframe.style.height = '100vh';
-  iframe.style.border = 'none';
+  // Update fallback link
+  document.getElementById('directLink').href = finalUrl;
 
-  document.body.appendChild(iframe);
+  // Create iframe
+  const iframe = document.createElement('iframe');
+  iframe.src = finalUrl;
+  document.getElementById('container').appendChild(iframe);
 </script>
 
 </body>
