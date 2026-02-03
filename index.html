@@ -29,21 +29,31 @@
   const params = new URLSearchParams(window.location.search);
   const token = params.get('token');
   
-  // The ?authuser=0 fix for Android Chrome Multi-login issues
-  const baseUrl = 'https://script.google.com/macros/s/AKfycbw6xr8MzJ5wqweZLefDvO9nd32cI4z1aVzV9er_dz5bcmad8GT8fyzHVMhlg0KE-bDQ/exec';
-  let finalUrl = baseUrl + '?authuser=0';
+  // Use /exec without the trailing slash for better compatibility
+  const baseUrl = 'https://script.google.com/macros/s/AKfycbw6xr8MzJ5wqweZLefDvO9nd32cI4z1aVzV9er_dz5bcmad8GT8fyzHVMhlg0KE-bDQ/exec'; 
+  
+  // ndplr=1 is a 'No Default Player' flag that helps bypass Google Drive redirects
+  let finalUrl = baseUrl + '?authuser=0&ndplr=1';
   
   if (token) {
     finalUrl += '&token=' + encodeURIComponent(token);
   }
 
-  // Update the fallback link for guests on Android Chrome
+  // Update the fallback link just in case
   document.getElementById('direct').href = finalUrl;
 
-  // Create the iframe
-  const ifrm = document.createElement('iframe');
-  ifrm.src = finalUrl;
-  document.getElementById('wrapper').appendChild(ifrm);
+  // DETECTION: If it's Android Chrome, skip the iframe and redirect directly.
+  // This is the most reliable way to avoid the "File cannot be opened" error.
+  const isAndroidChrome = /Android/.test(navigator.userAgent) && /Chrome/.test(navigator.userAgent);
+
+  if (isAndroidChrome) {
+    window.location.replace(finalUrl);
+  } else {
+    // For Desktop and iOS, the iframe works perfectly
+    const ifrm = document.createElement('iframe');
+    ifrm.src = finalUrl;
+    document.getElementById('wrapper').appendChild(ifrm);
+  }
 </script>
 
 </body>
