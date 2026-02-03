@@ -6,59 +6,43 @@
   <title>Laura & Hugo – Poroka</title>
   <style>
     :root { --green: #6F8F84; --paper: #F5F2EE; }
-    /* Fix: Full-screen height and width for PC */
+    /* Fix: Ensures the PC version is beautiful and full-screen again */
     body, html { margin: 0; padding: 0; height: 100%; width: 100%; background: var(--paper); font-family: Georgia, serif; overflow: hidden; }
     #wrapper { width: 100%; height: 100%; display: block; }
     iframe { width: 100%; height: 100%; border: none; display: block; }
-
-    /* Centered button for Android Chrome users */
-    .android-container { 
-      display: none; flex-direction: column; align-items: center; justify-content: center; 
-      height: 100vh; width: 100%; padding: 20px; text-align: center; box-sizing: border-box;
-    }
-    .btn { 
-      background: var(--green); color: white; padding: 18px 35px; 
-      border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 18px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-top: 20px;
+    #loader { 
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      color: var(--green); font-size: 18px; text-align: center; 
     }
   </style>
 </head>
 <body>
 
-  <div id="android-ui" class="android-container">
-    <h1 style="color: var(--green); font-size: 32px; margin-bottom: 0;">Laura & Hugo</h1>
-    <p style="font-size: 18px; color: #555;">Prosimo, kliknite gumb za ogled vabila:</p>
-    <a id="btn-link" href="#" class="btn">ODPRI VABILO</a>
-  </div>
-
+  <div id="loader">Nalagam vabilo...</div>
   <div id="wrapper"></div>
 
 <script>
   const params = new URLSearchParams(window.location.search);
   const token = params.get('token');
   
-  /**
-   * IMPORTANT: Using the Workspace Domain path you found. 
-   * This is much more reliable for scripts under digiteh.eu
-   */
+  // Using the domain-specific URL that worked on your phone
   const baseUrl = 'https://script.google.com/a/macros/digiteh.eu/s/AKfycbw6xr8MzJ5wqweZLefDvO9nd32cI4z1aVzV9er_dz5bcmad8GT8fyzHVMhlg0KE-bDQ/exec'; 
   
-  let finalUrl = baseUrl + '?authuser=0';
+  // ndplr=1 prevents Chrome from trying to open the URL in the Google Drive App
+  let finalUrl = baseUrl + '?authuser=0&ndplr=1';
   if (token) { finalUrl += '&token=' + encodeURIComponent(token); }
-
-  document.getElementById('btn-link').href = finalUrl;
 
   const isAndroid = /Android/i.test(navigator.userAgent);
   const isChrome = /Chrome/i.test(navigator.userAgent);
 
   if (isAndroid && isChrome) {
-    // Show the button to bypass the Chrome "File cannot be opened" block
-    document.getElementById('wrapper').style.display = 'none';
-    document.getElementById('android-ui').style.display = 'flex';
+    // Automatic Redirect for Android: No button required, bypasses the "blank page"
+    window.location.replace(finalUrl);
   } else {
-    // Standard full-screen iframe for PC and iPhone
+    // Desktop/iPhone: Keeps the script inside your pretty GitHub URL
     const ifrm = document.createElement('iframe');
     ifrm.src = finalUrl;
+    ifrm.onload = function() { document.getElementById('loader').style.display = 'none'; };
     document.getElementById('wrapper').appendChild(ifrm);
   }
 </script>
