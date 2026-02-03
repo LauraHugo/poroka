@@ -6,13 +6,13 @@
   <title>Laura & Hugo – Poroka</title>
   <style>
     :root { --green: #6F8F84; --paper: #F5F2EE; }
-    /* Fix: Ensures the PC version is beautiful and full-screen again */
+    /* PC layout: Full width and height */
     body, html { margin: 0; padding: 0; height: 100%; width: 100%; background: var(--paper); font-family: Georgia, serif; overflow: hidden; }
     #wrapper { width: 100%; height: 100%; display: block; }
     iframe { width: 100%; height: 100%; border: none; display: block; }
     #loader { 
       position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-      color: var(--green); font-size: 18px; text-align: center; 
+      color: var(--green); font-size: 18px; text-align: center; font-family: sans-serif;
     }
   </style>
 </head>
@@ -25,21 +25,22 @@
   const params = new URLSearchParams(window.location.search);
   const token = params.get('token');
   
-  // Using the domain-specific URL that worked on your phone
+  // Clean Workspace URL without extra parameters
   const baseUrl = 'https://script.google.com/a/macros/digiteh.eu/s/AKfycbw6xr8MzJ5wqweZLefDvO9nd32cI4z1aVzV9er_dz5bcmad8GT8fyzHVMhlg0KE-bDQ/exec'; 
   
-  // ndplr=1 prevents Chrome from trying to open the URL in the Google Drive App
-  let finalUrl = baseUrl + '?authuser=0&ndplr=1';
-  if (token) { finalUrl += '&token=' + encodeURIComponent(token); }
+  let finalUrl = baseUrl;
+  if (token) { 
+    finalUrl += '?token=' + encodeURIComponent(token); 
+  }
 
   const isAndroid = /Android/i.test(navigator.userAgent);
   const isChrome = /Chrome/i.test(navigator.userAgent);
 
   if (isAndroid && isChrome) {
-    // Automatic Redirect for Android: No button required, bypasses the "blank page"
+    // Redirect for Android Chrome to ensure the script opens
     window.location.replace(finalUrl);
   } else {
-    // Desktop/iPhone: Keeps the script inside your pretty GitHub URL
+    // Standard iframe for PC and iPhone
     const ifrm = document.createElement('iframe');
     ifrm.src = finalUrl;
     ifrm.onload = function() { document.getElementById('loader').style.display = 'none'; };
