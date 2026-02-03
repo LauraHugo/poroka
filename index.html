@@ -5,47 +5,45 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Laura & Hugo – Poroka</title>
   <style>
-    body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; font-family: sans-serif; }
+    :root { --green: #6F8F84; --paper: #F5F2EE; --gold: #B89A4F; }
+    body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background: var(--paper); font-family: Georgia, serif; }
     iframe { width: 100%; height: 100vh; border: none; }
-    .fallback { 
-      text-align: center; 
-      padding: 20px; 
-      position: absolute; 
-      bottom: 0; 
-      width: 100%; 
-      background: rgba(255,255,255,0.8); 
-      font-size: 14px;
+    .fix-bar { 
+      position: fixed; bottom: 0; width: 100%; padding: 15px; 
+      background: rgba(245, 242, 238, 0.95); text-align: center;
+      border-top: 1px solid var(--green); z-index: 999;
     }
+    .fix-link { color: var(--green); font-weight: bold; text-decoration: none; font-size: 14px; }
   </style>
 </head>
 <body>
 
-<div id="container"></div>
+<div id="wrapper"></div>
 
-<div class="fallback">
-  Težave z nalaganjem? <a id="directLink" href="#" target="_blank" style="color: #000; font-weight: bold;">Kliknite tukaj</a>
+<div class="fix-bar">
+  Težave z nalaganjem na telefonu? 
+  <a id="direct" href="#" target="_blank" class="fix-link">Odpri vabilo tukaj →</a>
 </div>
 
 <script>
   const params = new URLSearchParams(window.location.search);
   const token = params.get('token');
   
-  // Base URL corrected
+  // The ?authuser=0 fix for Android Chrome Multi-login issues
   const baseUrl = 'https://script.google.com/macros/s/AKfycbw6xr8MzJ5wqweZLefDvO9nd32cI4z1aVzV9er_dz5bcmad8GT8fyzHVMhlg0KE-bDQ/exec';
-  
-  // Build final URL with proper parameter syntax
   let finalUrl = baseUrl + '?authuser=0';
+  
   if (token) {
     finalUrl += '&token=' + encodeURIComponent(token);
   }
 
-  // Update fallback link
-  document.getElementById('directLink').href = finalUrl;
+  // Update the fallback link for guests on Android Chrome
+  document.getElementById('direct').href = finalUrl;
 
-  // Create iframe
-  const iframe = document.createElement('iframe');
-  iframe.src = finalUrl;
-  document.getElementById('container').appendChild(iframe);
+  // Create the iframe
+  const ifrm = document.createElement('iframe');
+  ifrm.src = finalUrl;
+  document.getElementById('wrapper').appendChild(ifrm);
 </script>
 
 </body>
