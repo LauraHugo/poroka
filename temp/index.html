@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  >
+
+  <title>Laura & Hugo – Mystery</title>
+
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background: #fff;
+      overflow: hidden;
+    }
+
+    #wrapper {
+      width: 100%;
+      height: 100%;
+    }
+
+    iframe {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    #loader {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: #B89A4F;
+      font-size: 18px;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="loader">Odpiram Mystery... 🔐</div>
+  <div id="wrapper"></div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const resume = params.get('resume');
+
+    // Workspace URL – ista rešitev kot pri glavni poročni strani
+    const baseUrl =
+      'https://script.google.com/a/macros/digiteh.eu/s/AKfycbxvzlh1Sc2TrmTzNyNdtQToFdRh_62CIEV-R6QKxjfGc-17G2myH4itZQiW_XK27VX-/exec';
+
+    let finalUrl = baseUrl;
+
+    // Če nekdo pride preko resume linka, ga posreduj Apps Scriptu
+    if (resume) {
+      finalUrl += '&resume=' + encodeURIComponent(resume);
+    }
+
+    const ifrm = document.createElement('iframe');
+    ifrm.src = finalUrl;
+    ifrm.setAttribute('allow', 'clipboard-write');
+
+    ifrm.onload = function () {
+      document.getElementById('loader').style.display = 'none';
+    };
+
+    document.getElementById('wrapper').appendChild(ifrm);
+  </script>
+
+</body>
+</html>
