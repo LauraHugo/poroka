@@ -8,6 +8,10 @@
     content="width=device-width, initial-scale=1.0, viewport-fit=cover"
   >
 
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+
   <title>Laura & Hugo – Catering</title>
 
   <style>
@@ -56,8 +60,11 @@
     const baseUrl =
       'https://script.google.com/a/macros/digiteh.eu/s/AKfycbwjhVYGbEueLoCFNFHbfH5UvGL1MUeCs6gcCFomPiPh58Wg97Kz8h_hjKfBtHhA7KsK/exec';
 
+    // Cache-buster je namenoma drugačen pri vsakem odpiranju.
     const finalUrl =
-      baseUrl + '?page=catering';
+      baseUrl +
+      '?page=catering&cb=' +
+      Date.now();
 
     const ifrm =
       document.createElement('iframe');
