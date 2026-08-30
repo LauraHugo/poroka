@@ -2,65 +2,95 @@
 <html lang="sl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  >
+
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+
   <title>Laura & Hugo – Poroka</title>
+
   <style>
-    :root { 
-      --green: #6F8F84; 
-      --paper: #F5F2EE; 
-      --gold: #B89A4F; 
-    }
-    
-    body, html { 
-      margin: 0; padding: 0; height: 100%; width: 100%; 
-      background: var(--paper); 
-      overflow: hidden; 
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background: #F5F2EE;
+      overflow: hidden;
     }
 
-    #wrapper { width: 100%; height: 100%; display: block; }
-    iframe { width: 100%; height: 100%; border: none; display: block; }
+    #wrapper {
+      width: 100%;
+      height: 100%;
+    }
 
-    #loader { 
-      position: absolute; 
-      top: 50%; 
-      left: 50%; 
+    iframe {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    #loader {
+      position: absolute;
+      top: 50%;
+      left: 50%;
       transform: translate(-50%, -50%);
-      color: var(--gold);
+
+      font-family:
+        system-ui,
+        -apple-system,
+        Segoe UI,
+        Roboto,
+        Arial,
+        sans-serif;
+
+      color: #B89A4F;
       font-size: 18px;
-      line-height: 1.6;
-      text-align: center; 
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
-      margin-top: 18px;
+      text-align: center;
     }
   </style>
 </head>
+
 <body>
 
-  <div id="loader">Nalagam vabilo...</div>
+  <div id="loader">
+    Odpiram poročno stran ... 💍
+  </div>
+
   <div id="wrapper"></div>
 
-<script>
-  const params = new URLSearchParams(window.location.search);
-  const token = params.get('token');
-  
-  // The specific Workspace URL that bypasses the Chrome block
-  const baseUrl = 'https://script.google.com/a/macros/digiteh.eu/s/AKfycbw6xr8MzJ5wqweZLefDvO9nd32cI4z1aVzV9er_dz5bcmad8GT8fyzHVMhlg0KE-bDQ/exec'; 
-  
-  let finalUrl = baseUrl;
-  if (token) { 
-    finalUrl += '?token=' + encodeURIComponent(token); 
-  }
+  <script>
+    const baseUrl =
+      'https://script.google.com/a/macros/digiteh.eu/s/AKfycbwjhVYGbEueLoCFNFHbfH5UvGL1MUeCs6gcCFomPiPh58Wg97Kz8h_hjKfBtHhA7KsK/exec';
 
-  // Load the iframe for all devices (No more Android-specific redirect)
-  const ifrm = document.createElement('iframe');
-  ifrm.src = finalUrl;
-  
-  // Remove the loader text once the invitation content is ready
-  ifrm.onload = function() { 
-    document.getElementById('loader').style.display = 'none'; 
-  };
-  
-  document.getElementById('wrapper').appendChild(ifrm);
-</script>
+    const ifrm =
+      document.createElement('iframe');
+
+    ifrm.src =
+      baseUrl + '?cb=' + Date.now();
+
+    ifrm.setAttribute(
+      'allow',
+      'clipboard-write'
+    );
+
+    ifrm.onload = function () {
+      document
+        .getElementById('loader')
+        .style.display = 'none';
+    };
+
+    document
+      .getElementById('wrapper')
+      .appendChild(ifrm);
+  </script>
+
 </body>
 </html>
